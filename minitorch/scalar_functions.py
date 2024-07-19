@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from typing import TYPE_CHECKING
 
 import minitorch
@@ -81,6 +82,18 @@ class Add(ScalarFunction):
         return d_output, d_output
 
 
+class Sub(ScalarFunction):
+    "Addition function $f(x, y) = x - y$"
+
+    @staticmethod
+    def forward(ctx: Context, a: float, b: float) -> float:
+        return a - b
+
+    @staticmethod
+    def backward(ctx: Context, d_output: float) -> Tuple[float, ...]:
+        return d_output, d_output
+
+
 class Log(ScalarFunction):
     "Log function $f(x) = log(x)$"
 
@@ -103,8 +116,7 @@ class Mul(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, a: float, b: float) -> float:
-        # TODO: Implement for Task 1.2.
-        raise NotImplementedError("Need to implement for Task 1.2")
+        return a * b
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> Tuple[float, float]:
@@ -117,8 +129,7 @@ class Inv(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
-        # TODO: Implement for Task 1.2.
-        raise NotImplementedError("Need to implement for Task 1.2")
+        return 1 / a
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:
@@ -131,8 +142,7 @@ class Neg(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
-        # TODO: Implement for Task 1.2.
-        raise NotImplementedError("Need to implement for Task 1.2")
+        return -a
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:
@@ -144,9 +154,8 @@ class Sigmoid(ScalarFunction):
     "Sigmoid function"
 
     @staticmethod
-    def forward(ctx: Context, a: float) -> float:
-        # TODO: Implement for Task 1.2.
-        raise NotImplementedError("Need to implement for Task 1.2")
+    def forward(ctx: Context, x: float) -> float:
+        return 1.0 / (1.0 + math.exp(-x)) if x >= 0 else math.exp(x) / (1.0 + math.exp(x))
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:
@@ -159,8 +168,7 @@ class ReLU(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
-        # TODO: Implement for Task 1.2.
-        raise NotImplementedError("Need to implement for Task 1.2")
+        return a if a > 0.0 else 0.0
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:
@@ -173,8 +181,7 @@ class Exp(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
-        # TODO: Implement for Task 1.2.
-        raise NotImplementedError("Need to implement for Task 1.2")
+        return math.exp(a)
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:
@@ -186,9 +193,21 @@ class LT(ScalarFunction):
     "Less-than function $f(x) =$ 1.0 if x is less than y else 0.0"
 
     @staticmethod
-    def forward(ctx: Context, a: float, b: float) -> float:
-        # TODO: Implement for Task 1.2.
-        raise NotImplementedError("Need to implement for Task 1.2")
+    def forward(ctx: Context, x: float, y: float) -> float:
+        return 1.0 if x < y else 0.0
+
+    @staticmethod
+    def backward(ctx: Context, d_output: float) -> Tuple[float, float]:
+        # TODO: Implement for Task 1.4.
+        raise NotImplementedError("Need to implement for Task 1.4")
+
+
+class GT(ScalarFunction):
+    "Less-than function $f(x) =$ 1.0 if x is less than y else 0.0"
+
+    @staticmethod
+    def forward(ctx: Context, x: float, y: float) -> float:
+        return 1.0 if x > y else 0.0
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> Tuple[float, float]:
@@ -200,9 +219,8 @@ class EQ(ScalarFunction):
     "Equal function $f(x) =$ 1.0 if x is equal to y else 0.0"
 
     @staticmethod
-    def forward(ctx: Context, a: float, b: float) -> float:
-        # TODO: Implement for Task 1.2.
-        raise NotImplementedError("Need to implement for Task 1.2")
+    def forward(ctx: Context, x: float, y: float) -> float:
+        return 1.0 if x == y else 0.0
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> Tuple[float, float]:

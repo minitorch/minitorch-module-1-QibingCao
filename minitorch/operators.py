@@ -64,7 +64,7 @@ def sigmoid(x: float) -> float:
 
     for stability.
     """
-    return 1.0 / (1.0 + exp(-x)) if x >= 0 else exp(x) / (1.0 + exp(x))
+    return 1.0 / (1.0 + exp(-x)) if x >= 0.0 else exp(x) / (1.0 + exp(x))
 
 
 def relu(x: float) -> float:
@@ -73,7 +73,7 @@ def relu(x: float) -> float:
 
     (See https://en.wikipedia.org/wiki/Rectifier_(neural_networks) .)
     """
-    return x if x > 0 else 0
+    return x if x > 0.0 else 0.0
 
 
 EPS = 1e-6
