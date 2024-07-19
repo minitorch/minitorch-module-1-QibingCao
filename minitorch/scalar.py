@@ -17,7 +17,9 @@ from .scalar_functions import (
     Neg,
     ReLU,
     ScalarFunction,
-    Sigmoid, GT, Sub,
+    Sigmoid,
+    GT,
+    Sub,
 )
 
 ScalarLike = Union[float, int, "Scalar"]
@@ -134,8 +136,8 @@ class Scalar:
 
     def accumulate_derivative(self, x: Any) -> None:
         """
-        Add `val` to the the derivative accumulated on this variable.
-        Should only be called during autodifferentiation on leaf variables.
+        Add `val` to the derivative accumulated on this variable.
+        Should only be called during auto-differentiation on leaf variables.
 
         Args:
             x: value to be accumulated
@@ -163,8 +165,8 @@ class Scalar:
         assert h.last_fn is not None
         assert h.ctx is not None
 
-        # TODO: Implement for Task 1.3.
-        raise NotImplementedError("Need to implement for Task 1.3")
+        d = h.last_fn._backward(h.ctx, d_output)
+        return zip(h.inputs, d)
 
     def backward(self, d_output: Optional[float] = None) -> None:
         """
@@ -198,7 +200,7 @@ but was expecting derivative f'=%f from central difference."""
         check = central_difference(f, *scalars, arg=i)
         print(str([x.data for x in scalars]), x.derivative, i, check)
         assert x.derivative is not None
-        np.testing.assert_allclose(
+        np.testing.assert_allclose(  # type: ignore
             x.derivative,
             check.data,
             1e-2,

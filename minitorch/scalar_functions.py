@@ -155,7 +155,9 @@ class Sigmoid(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, x: float) -> float:
-        return 1.0 / (1.0 + math.exp(-x)) if x >= 0 else math.exp(x) / (1.0 + math.exp(x))
+        return (
+            1.0 / (1.0 + math.exp(-x)) if x >= 0 else math.exp(x) / (1.0 + math.exp(x))
+        )
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:

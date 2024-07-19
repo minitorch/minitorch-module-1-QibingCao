@@ -56,14 +56,18 @@ class Module:
             The name and `Parameter` of each ancestor parameter.
         """
 
-        def named_helper(cur: Module, ancestor_name: str) -> Sequence[Tuple[str, Parameter]]:
+        def named_helper(
+            cur: Module, ancestor_name: str
+        ) -> Sequence[Tuple[str, Parameter]]:
             parameters = []
             for name, para in cur._parameters.items():
                 new_name = ancestor_name + "." + name if ancestor_name else name
                 parameters.append((new_name, para))
 
             for child_name, child_module in cur._modules.items():
-                new_child_name = ancestor_name + "." + child_name if ancestor_name else child_name
+                new_child_name = (
+                    ancestor_name + "." + child_name if ancestor_name else child_name
+                )
                 parameters.extend(named_helper(child_module, new_child_name))
             # print(parameters)
             return parameters
