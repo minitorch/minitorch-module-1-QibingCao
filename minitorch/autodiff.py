@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from typing import Any, Iterable, Tuple
+from typing import Any, Iterable, Tuple, Dict
+from collections import deque
 
 from typing_extensions import Protocol
 
@@ -68,8 +69,38 @@ def topological_sort(variable: Variable) -> Iterable[Variable]:
     Returns:
         Non-constant Variables in topological order starting from the right.
     """
-    # TODO: Implement for Task 1.4.
-    raise NotImplementedError("Need to implement for Task 1.4")
+
+    sorted_variables = []
+    visited = set()
+
+    def bfs(start_variable: Variable) -> None:
+        dq = deque([start_variable])
+
+        while dq:
+            cur = dq.popleft()
+
+            if cur.unique_id in visited:
+                continue
+
+            visited.add(cur.unique_id)
+            sorted_variables.append(cur)
+
+            for parent in cur.parents:
+                if (
+                    not parent.is_leaf()
+                    and not parent.is_constant()
+                    and parent.unique_id not in visited
+                ):
+                    dq.append(parent)
+
+    bfs(variable)
+
+    # for item in sorted_variables:
+    #     print("\n")
+    #     print(item)
+    #     print(item.parents)
+    #     print("\n")
+    return sorted_variables
 
 
 def backpropagate(variable: Variable, deriv: Any) -> None:
@@ -83,8 +114,22 @@ def backpropagate(variable: Variable, deriv: Any) -> None:
 
     No return. Should write to its results to the derivative values of each leaf through `accumulate_derivative`.
     """
-    # TODO: Implement for Task 1.4.
-    raise NotImplementedError("Need to implement for Task 1.4")
+    sorted_variables = topological_sort(variable)
+    derive_table: Dict[int, float] = {variable.unique_id: deriv}
+
+    def back_helper(vari: Variable) -> None:
+        d_output = derive_table[vari.unique_id]
+        parents_derive = cur_variable.chain_rule(d_output)
+        for parent, derivative in parents_derive:
+            if parent.is_leaf():
+                parent.accumulate_derivative(derivative)
+            else:
+                if parent.unique_id not in derive_table:
+                    derive_table[parent.unique_id] = 0.0
+                derive_table[parent.unique_id] += derivative
+
+    for cur_variable in sorted_variables:
+        back_helper(cur_variable)
 
 
 @dataclass
