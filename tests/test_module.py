@@ -143,7 +143,7 @@ def test_stacked_module(size_a: int, size_b: int, val: float) -> None:
 
 
 class ModuleRun(minitorch.Module):
-    def forward(self) -> int:
+    def forward(self, *args, **kwargs) -> int:
         return 10
 
 
