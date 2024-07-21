@@ -55,6 +55,7 @@ class ScalarFunction:
                 scalars.append(v)
                 raw_vals.append(v.data)
             else:
+                # print(f"Type of v: {type(v)}")  # 打印 v 的类型
                 scalars.append(minitorch.scalar.Scalar(v))
                 raw_vals.append(v)
 
