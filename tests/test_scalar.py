@@ -95,7 +95,7 @@ def test_two_args(
 
 # ## Task 1.4 - Computes checks on each of the derivatives.
 
-# See minitorch.testing for all of the functions checked.
+# See minitorch.testing for all the functions checked.
 
 
 @given(small_scalars)

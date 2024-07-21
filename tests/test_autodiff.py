@@ -5,7 +5,7 @@ import pytest
 import minitorch
 from minitorch import Context, ScalarFunction, ScalarHistory
 
-# ## Task 1.3 - Tests for the autodifferentiation machinery.
+# ## Task 1.3 - Tests for the auto-differentiation machinery.
 
 # Simple sanity check and debugging tests.
 
@@ -64,7 +64,7 @@ def test_chain_rule2() -> None:
 
 @pytest.mark.task1_3
 def test_chain_rule3() -> None:
-    "Check that constrants are ignored and variables get derivatives."
+    "Check that constants are ignored and variables get derivatives."
     constant = 10
     var = minitorch.Scalar(5)
 
