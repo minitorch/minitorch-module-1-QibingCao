@@ -141,3 +141,14 @@ def test_backprop4() -> None:
     var4 = Function1.apply(var2, var3)
     var4.backward(d_output=5)
     assert var0.derivative == 10
+
+@pytest.mark.task1_4
+def test_backprop5() -> None:
+
+    var0 = minitorch.Scalar(0)
+    var1 = Function1.apply(0, var0)
+    var2 = Function1.apply(0, var1)
+    var3 = Function1.apply(0, var2)
+    var4 = Function1.apply(var2, var3)
+    var4.backward(d_output=5)
+    assert var0.derivative == 10
